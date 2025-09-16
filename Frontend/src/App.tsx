@@ -8,7 +8,7 @@ import { ThemeProvider } from "@/contexts/ThemeContext";
 import Home from "./pages/Home";
 import Auth from "./pages/Auth";
 import AiChat from "./pages/AiChat";
-import RecordFood from "./pages/RecordFood";
+import Analyze from "./pages/Analyze";
 import ViewRecord from "./pages/ViewRecord";
 import ShoppingList from "./pages/ShoppingList";
 import NotFound from "./pages/NotFound";
@@ -27,7 +27,7 @@ const App = () => (
               <Route path="/" element={<Home />} />
               <Route path="/auth" element={<Auth />} />
               <Route path="/ai-chat" element={<AiChat />} />
-              <Route path="/record-food" element={<RecordFood />} />
+              <Route path="/analyze" element={<Analyze />} />
               <Route path="/view-record" element={<ViewRecord />} />
               <Route path="/shopping-list" element={<ShoppingList />} />
               <Route path="*" element={<NotFound />} />

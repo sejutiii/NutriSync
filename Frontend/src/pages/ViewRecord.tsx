@@ -5,22 +5,34 @@ import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
 import { Badge } from '@/components/ui/badge';
 import { useTheme } from '@/contexts/ThemeContext';
-import { Calendar, Home, TrendingUp, UtensilsCrossed, BarChart3 } from 'lucide-react';
+import { Calendar, Home, TrendingUp, UtensilsCrossed, BarChart3, Activity } from 'lucide-react';
 import Header from '@/components/layout/Header';
 
 interface MealRecord {
   id: string;
   date: string;
-  mealType: string;
-  foods: {
+  mealType?: string;
+  foods?: {
     name: string;
     quantity: string;
     unit: string;
     calories: number;
   }[];
-  totalCalories: number;
+  totalCalories?: number;
   notes?: string;
   timestamp: string;
+  // Analysis record fields
+  personalData?: {
+    name: string;
+    age: string;
+    gender: string;
+    height: string;
+    bloodGroup: string;
+    area: string;
+  };
+  consumptionMode?: string;
+  deficiencies?: string[];
+  recommendations?: string[];
 }
 
 const ViewRecord: React.FC = () => {
@@ -30,11 +42,14 @@ const ViewRecord: React.FC = () => {
   const [dateFilter, setDateFilter] = useState('week');
 
   useEffect(() => {
-    // Load records from localStorage (demo data)
-    const storedRecords = localStorage.getItem('nutrisync-meals');
-    if (storedRecords) {
-      setRecords(JSON.parse(storedRecords));
-    } else {
+    // Load both meal records and analysis records from localStorage
+    const storedMeals = localStorage.getItem('nutrisync-meals');
+    const storedAnalyses = localStorage.getItem('nutrisync-analyses');
+    
+    const meals = storedMeals ? JSON.parse(storedMeals) : [];
+    const analyses = storedAnalyses ? JSON.parse(storedAnalyses) : [];
+    
+    if (meals.length === 0 && analyses.length === 0) {
       // Add some demo data
       const demoRecords: MealRecord[] = [
         {
@@ -75,12 +90,22 @@ const ViewRecord: React.FC = () => {
           timestamp: new Date(Date.now() - 172800000).toISOString(),
         },
       ];
-      setRecords(demoRecords);
+      setRecords([...meals, ...analyses, ...demoRecords]);
       localStorage.setItem('nutrisync-meals', JSON.stringify(demoRecords));
+    } else {
+      setRecords([...meals, ...analyses]);
     }
   }, [language]);
 
   const filteredRecords = records.filter(record => {
+    // Handle analysis records differently
+    if (record.personalData) {
+      // This is an analysis record, show all for now
+      // Could add specific analysis filters later
+      return true;
+    }
+    
+    // Handle meal records
     if (filter !== 'all' && record.mealType !== filter) return false;
     
     const recordDate = new Date(record.date);
@@ -100,8 +125,12 @@ const ViewRecord: React.FC = () => {
     }
   });
 
-  const totalCalories = filteredRecords.reduce((sum, record) => sum + record.totalCalories, 0);
-  const avgCalories = filteredRecords.length > 0 ? Math.round(totalCalories / filteredRecords.length) : 0;
+  const totalCalories = filteredRecords.reduce((sum, record) => {
+    // Only count calories from meal records, not analysis records
+    return record.totalCalories && !record.personalData ? sum + record.totalCalories : sum;
+  }, 0);
+  const mealRecords = filteredRecords.filter(record => !record.personalData);
+  const avgCalories = mealRecords.length > 0 ? Math.round(totalCalories / mealRecords.length) : 0;
 
   const getMealTypeLabel = (type: string) => {
     const labels = {
@@ -190,7 +219,7 @@ const ViewRecord: React.FC = () => {
                   <p className={`text-sm text-muted-foreground ${language === 'bn' ? 'font-bengali' : ''}`}>
                     {language === 'bn' ? 'মোট খাবার' : 'Total Meals'}
                   </p>
-                  <p className="text-2xl font-bold text-accent">{filteredRecords.length}</p>
+                  <p className="text-2xl font-bold text-accent">{mealRecords.length}</p>
                 </div>
               </div>
             </CardContent>
@@ -259,8 +288,8 @@ const ViewRecord: React.FC = () => {
                 {language === 'bn' ? 'খাবার রেকর্ড করা শুরু করুন' : 'Start recording your meals to see them here'}
               </p>
               <Button asChild className="bg-gradient-primary">
-                <Link to="/record-food">
-                  {language === 'bn' ? 'খাবার রেকর্ড করুন' : 'Record Food'}
+                <Link to="/analyze">
+                  {language === 'bn' ? 'পুষ্টি বিশ্লেষণ' : 'Analyze Nutrition'}
                 </Link>
               </Button>
             </CardContent>
@@ -270,47 +299,161 @@ const ViewRecord: React.FC = () => {
             {filteredRecords.map((record) => (
               <Card key={record.id} className="bg-gradient-card border-0 shadow-medium hover:shadow-strong transition-shadow">
                 <CardContent className="p-6">
-                  <div className="flex items-start justify-between mb-4">
-                    <div className="flex items-center space-x-4">
-                      <Badge className={`${getMealTypeColor(record.mealType)} text-white`}>
-                        {getMealTypeLabel(record.mealType)}
-                      </Badge>
-                      <div>
-                        <p className="font-semibold">{new Date(record.date).toLocaleDateString()}</p>
-                        <p className="text-sm text-muted-foreground">
-                          {new Date(record.timestamp).toLocaleTimeString()}
-                        </p>
-                      </div>
-                    </div>
-                    <div className="text-right">
-                      <p className="text-2xl font-bold text-primary">{record.totalCalories}</p>
-                      <p className="text-sm text-muted-foreground">calories</p>
-                    </div>
-                  </div>
-
-                  <div className="space-y-2 mb-4">
-                    <h4 className={`font-medium ${language === 'bn' ? 'font-bengali' : ''}`}>
-                      {language === 'bn' ? 'খাবারের তালিকা:' : 'Foods:'}
-                    </h4>
-                    <div className="grid grid-cols-1 md:grid-cols-2 gap-2">
-                      {record.foods.map((food, index) => (
-                        <div key={index} className="flex justify-between items-center p-2 bg-white dark:bg-gray-800 rounded border">
-                          <span className={`text-sm ${language === 'bn' ? 'font-bengali' : ''}`}>
-                            {food.name} ({food.quantity} {food.unit})
-                          </span>
-                          <span className="text-sm font-medium text-primary">
-                            {food.calories} cal
-                          </span>
+                  {/* Check if this is an analysis record */}
+                  {record.personalData ? (
+                    // Analysis Record Display
+                    <div>
+                      <div className="flex items-start justify-between mb-4">
+                        <div className="flex items-center space-x-4">
+                          <div className="p-2 rounded-xl bg-gradient-primary/20">
+                            <Activity className="h-6 w-6 text-primary" />
+                          </div>
+                          <div>
+                            <h3 className={`font-semibold text-lg ${language === 'bn' ? 'font-bengali' : ''}`}>
+                              {language === 'bn' ? 'পুষ্টি বিশ্লেষণ' : 'Nutrition Analysis'}
+                            </h3>
+                            <p className="text-sm text-muted-foreground">
+                              {record.personalData.name} • {new Date(record.timestamp).toLocaleDateString()}
+                            </p>
+                          </div>
                         </div>
-                      ))}
-                    </div>
-                  </div>
+                        <div className="text-right">
+                          <Badge className="bg-primary text-white">
+                            {record.deficiencies?.length || 0} {language === 'bn' ? 'ঘাটতি' : 'deficiencies'}
+                          </Badge>
+                        </div>
+                      </div>
+                      
+                      {/* Personal Data Summary */}
+                      <div className="mb-4 p-4 bg-muted/30 rounded-lg">
+                        <h4 className={`text-sm font-medium mb-2 ${language === 'bn' ? 'font-bengali' : ''}`}>
+                          {language === 'bn' ? 'ব্যক্তিগত তথ্য:' : 'Personal Information:'}
+                        </h4>
+                        <div className="grid grid-cols-2 md:grid-cols-4 gap-2 text-sm">
+                          <div>
+                            <span className="text-muted-foreground">{language === 'bn' ? 'বয়স:' : 'Age:'}</span>
+                            <span className="ml-1">{record.personalData.age} years</span>
+                          </div>
+                          <div>
+                            <span className="text-muted-foreground">{language === 'bn' ? 'লিঙ্গ:' : 'Gender:'}</span>
+                            <span className="ml-1 capitalize">{record.personalData.gender}</span>
+                          </div>
+                          <div>
+                            <span className="text-muted-foreground">{language === 'bn' ? 'উচ্চতা:' : 'Height:'}</span>
+                            <span className="ml-1">{record.personalData.height}cm</span>
+                          </div>
+                          {record.personalData.bloodGroup && (
+                            <div>
+                              <span className="text-muted-foreground">{language === 'bn' ? 'রক্তের গ্রুপ:' : 'Blood Group:'}</span>
+                              <span className="ml-1">{record.personalData.bloodGroup}</span>
+                            </div>
+                          )}
+                        </div>
+                      </div>
 
-                  {record.notes && (
-                    <div className="p-3 bg-muted/50 rounded-lg">
-                      <p className={`text-sm ${language === 'bn' ? 'font-bengali' : ''}`}>
-                        <strong>{language === 'bn' ? 'নোট:' : 'Notes:'}</strong> {record.notes}
-                      </p>
+                      {/* Foods Analyzed */}
+                      <div className="mb-4">
+                        <h4 className={`text-sm font-medium mb-2 ${language === 'bn' ? 'font-bengali' : ''}`}>
+                          {language === 'bn' ? 'বিশ্লেষিত খাবার:' : 'Foods Analyzed:'}
+                        </h4>
+                        <div className="grid grid-cols-1 md:grid-cols-2 gap-2">
+                          {record.foods?.slice(0, 6).map((food: any, foodIndex: number) => (
+                            <div key={foodIndex} className="flex justify-between items-center p-2 bg-white dark:bg-gray-800 rounded border">
+                              <span className={`text-sm ${language === 'bn' ? 'font-bengali' : ''}`}>{food.name}</span>
+                              <span className="text-sm text-muted-foreground">
+                                {food.amount} {food.unit}
+                              </span>
+                            </div>
+                          ))}
+                          {record.foods && record.foods.length > 6 && (
+                            <div className="col-span-full text-center">
+                              <p className="text-xs text-muted-foreground">
+                                +{record.foods.length - 6} more items
+                              </p>
+                            </div>
+                          )}
+                        </div>
+                      </div>
+
+                      {/* Deficiencies */}
+                      {record.deficiencies && record.deficiencies.length > 0 && (
+                        <div className="mb-4">
+                          <h4 className={`text-sm font-medium mb-2 text-red-600 ${language === 'bn' ? 'font-bengali' : ''}`}>
+                            {language === 'bn' ? 'পুষ্টির ঘাটতি:' : 'Nutrient Deficiencies:'}
+                          </h4>
+                          <div className="flex flex-wrap gap-2">
+                            {record.deficiencies.map((deficiency: string, index: number) => (
+                              <Badge key={index} variant="destructive" className="text-xs">
+                                {deficiency}
+                              </Badge>
+                            ))}
+                          </div>
+                        </div>
+                      )}
+
+                      {/* Recommendations */}
+                      {record.recommendations && record.recommendations.length > 0 && (
+                        <div>
+                          <h4 className={`text-sm font-medium mb-2 text-green-600 ${language === 'bn' ? 'font-bengali' : ''}`}>
+                            {language === 'bn' ? 'সুপারিশ:' : 'Recommendations:'}
+                          </h4>
+                          <div className="space-y-2">
+                            {record.recommendations.map((rec: string, index: number) => (
+                              <div key={index} className="flex items-start text-sm bg-green-50 dark:bg-green-900/20 p-3 rounded-lg">
+                                <div className="w-2 h-2 bg-green-600 rounded-full mt-1.5 mr-3 flex-shrink-0"></div>
+                                <span className={language === 'bn' ? 'font-bengali' : ''}>{rec}</span>
+                              </div>
+                            ))}
+                          </div>
+                        </div>
+                      )}
+                    </div>
+                  ) : (
+                    // Meal Record Display (existing code)
+                    <div>
+                      <div className="flex items-start justify-between mb-4">
+                        <div className="flex items-center space-x-4">
+                          <Badge className={`${getMealTypeColor(record.mealType || '')} text-white`}>
+                            {getMealTypeLabel(record.mealType || '')}
+                          </Badge>
+                          <div>
+                            <p className="font-semibold">{new Date(record.date).toLocaleDateString()}</p>
+                            <p className="text-sm text-muted-foreground">
+                              {new Date(record.timestamp).toLocaleTimeString()}
+                            </p>
+                          </div>
+                        </div>
+                        <div className="text-right">
+                          <p className="text-2xl font-bold text-primary">{record.totalCalories}</p>
+                          <p className="text-sm text-muted-foreground">calories</p>
+                        </div>
+                      </div>
+
+                      <div className="space-y-2 mb-4">
+                        <h4 className={`font-medium ${language === 'bn' ? 'font-bengali' : ''}`}>
+                          {language === 'bn' ? 'খাবারের তালিকা:' : 'Foods:'}
+                        </h4>
+                        <div className="grid grid-cols-1 md:grid-cols-2 gap-2">
+                          {record.foods?.map((food, index) => (
+                            <div key={index} className="flex justify-between items-center p-2 bg-white dark:bg-gray-800 rounded border">
+                              <span className={`text-sm ${language === 'bn' ? 'font-bengali' : ''}`}>
+                                {food.name} ({food.quantity} {food.unit})
+                              </span>
+                              <span className="text-sm font-medium text-primary">
+                                {food.calories} cal
+                              </span>
+                            </div>
+                          ))}
+                        </div>
+                      </div>
+
+                      {record.notes && (
+                        <div className="p-3 bg-muted/50 rounded-lg">
+                          <p className={`text-sm ${language === 'bn' ? 'font-bengali' : ''}`}>
+                            <strong>{language === 'bn' ? 'নোট:' : 'Notes:'}</strong> {record.notes}
+                          </p>
+                        </div>
+                      )}
                     </div>
                   )}
                 </CardContent>

@@ -23,9 +23,9 @@ const Home: React.FC = () => {
     },
     {
       icon: UtensilsCrossed,
-      title: t('features.recordFood'),
-      description: t('features.recordFoodDesc'),
-      link: '/record-food',
+      title: t('features.analyzeNutrition') || (language === 'bn' ? 'পুষ্টি বিশ্লেষণ' : 'Analyze Nutrition'),
+      description: t('features.analyzeNutritionDesc') || (language === 'bn' ? 'আপনার পুষ্টির ঘাটতি খুঁজুন' : 'Find nutrient deficiencies'),
+      link: '/analyze',
       color: 'secondary',
     },
     {
