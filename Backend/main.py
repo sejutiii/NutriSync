@@ -1,0 +1,32 @@
+from fastapi import FastAPI
+from dotenv import load_dotenv
+import os
+
+from routes.user_routes import router as user_router
+from db import db
+
+load_dotenv()
+app = FastAPI()
+
+@app.get("/")
+async def read_root():
+    secret_key = os.getenv("SECRET_KEY")
+    collections = await db.list_collection_names()
+    return {
+        "message": "Hello, NutriSync!",
+        "secret_key": secret_key,
+        "collections": collections
+    }
+
+@app.get("/db-status")
+async def db_status():
+    try:
+        result = await db.command("ping")
+        if result.get("ok"):
+            return {"status": "connected"}
+        else:
+            return {"status": "not connected"}
+    except Exception as e:
+        return {"status": "error", "details": str(e)}
+
+app.include_router(user_router)

@@ -1,0 +1,28 @@
+# Python virtual environment
+venv/
+
+# VS Code settings
+.vscode/
+
+# Node modules (if any)
+node_modules/
+
+# OS files
+.DS_Store
+Thumbs.db
+
+# Logs
+*.log
+
+# Build
+/dist/
+/build/
+
+# Misc
+__pycache__/
+*.pyc
+*.pyo
+*.pyd
+
+# Environment files
+.env
