@@ -1,0 +1,301 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* NutriSync Design System - Bengali-inspired nutrition app colors */
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Noto+Sans+Bengali:wght@300;400;500;600;700&display=swap');
+
+@layer base {
+  :root {
+    /* Core Colors - Fresh & Vibrant */
+    --background: 45 25% 97%;
+    --foreground: 150 15% 15%;
+
+    --card: 0 0% 100%;
+    --card-foreground: 150 15% 15%;
+
+    --popover: 0 0% 100%;
+    --popover-foreground: 150 15% 15%;
+
+    /* Primary - Fresh Green (Vegetables & Nature) */
+    --primary: 142 70% 45%;
+    --primary-foreground: 0 0% 100%;
+    --primary-light: 142 60% 65%;
+    --primary-dark: 142 80% 35%;
+
+    /* Secondary - Warm Orange (Spices & Turmeric) */
+    --secondary: 35 85% 55%;
+    --secondary-foreground: 0 0% 100%;
+    --secondary-light: 35 75% 70%;
+    --secondary-dark: 35 95% 45%;
+
+    /* Accent - Rich Purple (Traditional Colors) */
+    --accent: 280 65% 55%;
+    --accent-foreground: 0 0% 100%;
+    --accent-light: 280 55% 70%;
+    --accent-dark: 280 75% 45%;
+
+    /* Highlight - Vibrant Yellow (Mustard & Highlights) */
+    --highlight: 50 95% 60%;
+    --highlight-foreground: 150 15% 15%;
+    --highlight-light: 50 85% 75%;
+    --highlight-dark: 50 100% 50%;
+
+    --muted: 45 15% 92%;
+    --muted-foreground: 150 10% 45%;
+
+    --destructive: 0 85% 60%;
+    --destructive-foreground: 0 0% 100%;
+
+    --border: 45 20% 88%;
+    --input: 45 20% 88%;
+    --ring: 142 70% 45%;
+
+    --radius: 0.75rem;
+
+    /* Gradients */
+    --gradient-primary: linear-gradient(135deg, hsl(var(--primary)), hsl(var(--secondary)));
+    --gradient-hero: linear-gradient(135deg, hsl(var(--primary) / 0.9), hsl(var(--accent) / 0.8), hsl(var(--secondary) / 0.9));
+    --gradient-card: linear-gradient(145deg, hsl(var(--card)) 0%, hsl(var(--muted)) 100%);
+    --gradient-cultural: linear-gradient(45deg, hsl(var(--accent) / 0.1), hsl(var(--primary) / 0.1), hsl(var(--highlight) / 0.1));
+
+    /* Shadows */
+    --shadow-soft: 0 4px 15px hsl(var(--primary) / 0.1);
+    --shadow-medium: 0 8px 25px hsl(var(--primary) / 0.15);
+    --shadow-strong: 0 15px 35px hsl(var(--primary) / 0.2);
+    --shadow-glow: 0 0 30px hsl(var(--primary) / 0.3);
+
+    /* Cultural Patterns */
+    --pattern-opacity: 0.05;
+
+    --sidebar-background: 0 0% 98%;
+
+    --sidebar-foreground: 240 5.3% 26.1%;
+
+    --sidebar-primary: 240 5.9% 10%;
+
+    --sidebar-primary-foreground: 0 0% 98%;
+
+    --sidebar-accent: 240 4.8% 95.9%;
+
+    --sidebar-accent-foreground: 240 5.9% 10%;
+
+    --sidebar-border: 220 13% 91%;
+
+    --sidebar-ring: 217.2 91.2% 59.8%;
+  }
+
+  .dark {
+    /* Dark Mode - Rich & Vibrant */
+    --background: 150 20% 8%;
+    --foreground: 45 25% 95%;
+
+    --card: 150 15% 12%;
+    --card-foreground: 45 25% 95%;
+
+    --popover: 150 15% 12%;
+    --popover-foreground: 45 25% 95%;
+
+    /* Primary - Bright Green for Dark Mode */
+    --primary: 142 70% 55%;
+    --primary-foreground: 150 20% 8%;
+    --primary-light: 142 60% 70%;
+    --primary-dark: 142 80% 45%;
+
+    /* Secondary - Warm Orange */
+    --secondary: 35 85% 65%;
+    --secondary-foreground: 150 20% 8%;
+    --secondary-light: 35 75% 75%;
+    --secondary-dark: 35 95% 55%;
+
+    /* Accent - Rich Purple */
+    --accent: 280 65% 65%;
+    --accent-foreground: 150 20% 8%;
+    --accent-light: 280 55% 75%;
+    --accent-dark: 280 75% 55%;
+
+    /* Highlight - Vibrant Yellow */
+    --highlight: 50 95% 70%;
+    --highlight-foreground: 150 20% 8%;
+    --highlight-light: 50 85% 80%;
+    --highlight-dark: 50 100% 60%;
+
+    --muted: 150 10% 20%;
+    --muted-foreground: 45 15% 65%;
+
+    --destructive: 0 85% 65%;
+    --destructive-foreground: 150 20% 8%;
+
+    --border: 150 10% 25%;
+    --input: 150 10% 25%;
+    --ring: 142 70% 55%;
+
+    /* Dark Mode Gradients */
+    --gradient-primary: linear-gradient(135deg, hsl(var(--primary) / 0.8), hsl(var(--secondary) / 0.8));
+    --gradient-hero: linear-gradient(135deg, hsl(var(--primary) / 0.6), hsl(var(--accent) / 0.5), hsl(var(--secondary) / 0.6));
+    --gradient-card: linear-gradient(145deg, hsl(var(--card)) 0%, hsl(var(--muted)) 100%);
+    --gradient-cultural: linear-gradient(45deg, hsl(var(--accent) / 0.2), hsl(var(--primary) / 0.2), hsl(var(--highlight) / 0.2));
+
+    /* Dark Mode Shadows */
+    --shadow-soft: 0 4px 15px hsl(var(--primary) / 0.2);
+    --shadow-medium: 0 8px 25px hsl(var(--primary) / 0.25);
+    --shadow-strong: 0 15px 35px hsl(var(--primary) / 0.3);
+    --shadow-glow: 0 0 30px hsl(var(--primary) / 0.4);
+
+    --pattern-opacity: 0.1;
+  }
+}
+
+@layer base {
+  * {
+    @apply border-border;
+  }
+
+  body {
+    @apply bg-background text-foreground font-inter;
+    font-feature-settings: "cv11", "ss01";
+    font-variation-settings: "opsz" 32;
+  }
+
+  .font-bengali {
+    font-family: 'Noto Sans Bengali', sans-serif;
+  }
+
+  .font-inter {
+    font-family: 'Inter', sans-serif;
+  }
+}
+
+@layer components {
+  /* Cultural Pattern Background */
+  .pattern-bg {
+    background-image: 
+      radial-gradient(circle at 20% 50%, hsl(var(--accent) / var(--pattern-opacity)) 0%, transparent 50%),
+      radial-gradient(circle at 80% 20%, hsl(var(--primary) / var(--pattern-opacity)) 0%, transparent 50%),
+      radial-gradient(circle at 40% 80%, hsl(var(--highlight) / var(--pattern-opacity)) 0%, transparent 50%);
+  }
+
+  /* Gradient Backgrounds */
+  .bg-gradient-primary {
+    background: var(--gradient-primary);
+  }
+
+  .bg-gradient-hero {
+    background: var(--gradient-hero);
+  }
+
+  .bg-gradient-card {
+    background: var(--gradient-card);
+  }
+
+  .bg-gradient-cultural {
+    background: var(--gradient-cultural);
+  }
+
+  /* Shadow Utilities */
+  .shadow-soft {
+    box-shadow: var(--shadow-soft);
+  }
+
+  .shadow-medium {
+    box-shadow: var(--shadow-medium);
+  }
+
+  .shadow-strong {
+    box-shadow: var(--shadow-strong);
+  }
+
+  .shadow-glow {
+    box-shadow: var(--shadow-glow);
+  }
+
+  /* Animation Classes */
+  .animate-float {
+    animation: float 6s ease-in-out infinite;
+  }
+
+  .animate-pulse-soft {
+    animation: pulse-soft 2s ease-in-out infinite;
+  }
+
+  .animate-bounce-soft {
+    animation: bounce-soft 2s ease-in-out infinite;
+  }
+
+  .animate-slide-up {
+    animation: slide-up 0.5s ease-out;
+  }
+
+  .animate-fade-in {
+    animation: fade-in 0.3s ease-out;
+  }
+
+  /* Bengali Cultural Elements */
+  .paisley-pattern {
+    background-image: url("data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none' fill-rule='evenodd'%3E%3Cg fill='%23000' fill-opacity='0.05'%3E%3Cpath d='M30 30c0-11.046-8.954-20-20-20S-10 18.954-10 30s8.954 20 20 20c11.046 0 20-8.954 20-20zM30 0c0 11.046 8.954 20 20 20s20-8.954 20-20S61.046-20 50-20 30-11.046 30 0z'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E");
+  }
+}
+
+@layer utilities {
+  /* Text Gradient Utilities */
+  .text-gradient-primary {
+    background: var(--gradient-primary);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+  }
+
+  .text-gradient-hero {
+    background: var(--gradient-hero);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+  }
+}
+
+@keyframes float {
+  0%, 100% {
+    transform: translateY(0px);
+  }
+  50% {
+    transform: translateY(-20px);
+  }
+}
+
+@keyframes pulse-soft {
+  0%, 100% {
+    opacity: 1;
+  }
+  50% {
+    opacity: 0.7;
+  }
+}
+
+@keyframes bounce-soft {
+  0%, 100% {
+    transform: translateY(0);
+  }
+  50% {
+    transform: translateY(-10px);
+  }
+}
+
+@keyframes slide-up {
+  from {
+    opacity: 0;
+    transform: translateY(30px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes fade-in {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
