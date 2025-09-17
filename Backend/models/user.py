@@ -1,5 +1,5 @@
 from pydantic import BaseModel, EmailStr, Field
-from typing import Optional
+from typing import Optional, Literal
 
 # Request schema (no _id)
 class UserCreate(BaseModel):
@@ -9,6 +9,7 @@ class UserCreate(BaseModel):
     age: int
     height: float
     weight: float
+    gender: Literal["M", "F"]
 
 # Login request schema
 class UserLogin(BaseModel):
@@ -24,6 +25,7 @@ class User(BaseModel):
     age: int
     height: float
     weight: float
+    gender: Literal["M", "F"]
 
     class Config:
         allow_population_by_field_name = True

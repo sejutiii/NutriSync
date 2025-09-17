@@ -1,0 +1,163 @@
+Nutrient,Gender,Age,Baseline,UL
+Carbohydrates,M,C,130,
+Carbohydrates,F,C,130,
+Carbohydrates,M,A,130,
+Carbohydrates,F,A,130,
+Carbohydrates,M,O,130,
+Carbohydrates,F,O,130,
+Protein,M,C,34,
+Protein,F,C,34,
+Protein,M,A,56,
+Protein,F,A,46,
+Protein,M,O,56,
+Protein,F,O,46,
+Fats,M,C,44,78
+Fats,F,C,44,78
+Fats,M,A,44,78
+Fats,F,A,44,78
+Fats,M,O,44,78
+Fats,F,O,44,78
+Fiber,M,C,14,
+Fiber,F,C,14,
+Fiber,M,A,31,
+Fiber,F,A,22,
+Fiber,M,O,28,
+Fiber,F,O,18,
+Sugar,M,C,0,25
+Sugar,F,C,0,25
+Sugar,M,A,0,36
+Sugar,F,A,0,25
+Sugar,M,O,0,36
+Sugar,F,O,0,25
+Cholesterol,M,C,,300
+Cholesterol,F,C,,300
+Cholesterol,M,A,,300
+Cholesterol,F,A,,300
+Cholesterol,M,O,,300
+Cholesterol,F,O,,300
+Choline,M,C,210,1000
+Choline,F,C,210,1000
+Choline,M,A,385,3500
+Choline,F,A,350,3500
+Choline,M,O,385,3500
+Choline,F,O,350,3500
+Manganese,M,C,1.5,3
+Manganese,F,C,1.5,3
+Manganese,M,A,2.3,11
+Manganese,F,A,1.8,11
+Manganese,M,O,2.3,11
+Manganese,F,O,1.8,11
+Selenium,M,C,30,150
+Selenium,F,C,30,150
+Selenium,M,A,55,400
+Selenium,F,A,55,400
+Selenium,M,O,55,400
+Selenium,F,O,55,400
+Calcium,M,C,1000,2500
+Calcium,F,C,1000,2500
+Calcium,M,A,1000,2500
+Calcium,F,A,1000,2500
+Calcium,M,O,1200,2000
+Calcium,F,O,1200,2000
+Copper,M,C,0.44,3
+Copper,F,C,0.44,3
+Copper,M,A,0.9,10
+Copper,F,A,0.9,10
+Copper,M,O,0.9,10
+Copper,F,O,0.9,10
+Iron,M,C,10,40
+Iron,F,C,10,40
+Iron,M,A,8,45
+Iron,F,A,18,45
+Iron,M,O,8,45
+Iron,F,O,8,45
+Magnesium,M,C,130,110
+Magnesium,F,C,130,110
+Magnesium,M,A,400,350
+Magnesium,F,A,310,350
+Magnesium,M,O,420,350
+Magnesium,F,O,320,350
+Phosphorus,M,C,500,3000
+Phosphorus,F,C,500,3000
+Phosphorus,M,A,700,4000
+Phosphorus,F,A,700,4000
+Phosphorus,M,O,700,4000
+Phosphorus,F,O,700,4000
+Potassium,M,C,3000,
+Potassium,F,C,3000,
+Potassium,M,A,3400,
+Potassium,F,A,2600,
+Potassium,M,O,3400,
+Potassium,F,O,2600, 
+Sodium,M,C,1000,1500
+Sodium,F,C,1000,1500
+Sodium,M,A,1500,2300
+Sodium,F,A,1500,2300
+Sodium,M,O,1500,2300
+Sodium,F,O,1500,2300
+Zinc,M,C,5,7
+Zinc,F,C,5,7
+Zinc,M,A,11,40
+Zinc,F,A,8,40
+Zinc,M,O,11,40
+Zinc,F,O,8,40
+Vitamin A,M,C,400,600
+Vitamin A,F,C,400,600
+Vitamin A,M,A,900,3000
+Vitamin A,F,A,700,3000
+Vitamin A,M,O,900,3000
+Vitamin A,F,O,700,3000
+Vitamin B1,M,C,0.6,
+Vitamin B1,F,C,0.6,
+Vitamin B1,M,A,1.2,
+Vitamin B1,F,A,1.1,
+Vitamin B1,M,O,1.2,
+Vitamin B1,F,O,1.1,
+Vitamin B2,M,C,0.6,
+Vitamin B2,F,C,0.6,
+Vitamin B2,M,A,1.3,
+Vitamin B2,F,A,1.1,
+Vitamin B2,M,O,1.3,
+Vitamin B2,F,O,1.1,
+Vitamin B3,M,C,8,15
+Vitamin B3,F,C,8,15
+Vitamin B3,M,A,16,35
+Vitamin B3,F,A,14,35
+Vitamin B3,M,O,16,35
+Vitamin B3,F,O,14,35,
+Vitamin B5,M,C,3,
+Vitamin B5,F,C,3,
+Vitamin B5,M,A,5,
+Vitamin B5,F,A,5,
+Vitamin B5,M,O,5,
+Vitamin B5,F,O,5,
+Vitamin B6,M,C,0.6,30
+Vitamin B6,F,C,0.6,30
+Vitamin B6,M,A,1.3,100
+Vitamin B6,F,A,1.3,100
+Vitamin B6,M,O,1.7,100
+Vitamin B6,F,O,1.5,100
+Vitamin B12,M,C,1.2,
+Vitamin B12,F,C,1.2,
+Vitamin B12,M,A,2.4,
+Vitamin B12,F,A,2.4,
+Vitamin B12,M,O,2.4,
+Vitamin B12,F,O,2.4,
+Vitamin C,M,C,25,400
+Vitamin C,F,C,25,400
+Vitamin C,M,A,90,2000
+Vitamin C,F,A,75,2000
+Vitamin C,M,O,90,2000
+Vitamin C,F,O,75,2000
+Vitamin E,M,C,6,200
+Vitamin E,F,C,6,200
+Vitamin E,M,A,15,1000
+Vitamin E,F,A,15,1000
+Vitamin E,M,O,15,1000
+Vitamin E,F,O,15,1000
+Vitamin K,M,C,55,
+Vitamin K,F,C,55,
+Vitamin K,M,A,120,
+Vitamin K,F,A,90,
+Vitamin K,M,O,120,
+Vitamin K,F,O,90,
