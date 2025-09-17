@@ -1,0 +1,44 @@
+{
+  "11362": {
+    "amount_gm": 300,
+    "description": "POTATOES,RAW,SKIN" 
+  },
+  "11363": {
+    "amount_gm": 150,
+    "description": "POTATOES,BKD,FLESH,WO/SALT"
+  },
+  "11464": {
+    "amount_gm": 100,
+    "description": "SPINACH,FRZ,CHOPD OR LEAF,CKD,BLD,DRND,WO/SALT"
+  },
+  "14367": {
+    "amount_gm": 200,
+    "description": "TEA,INST,UNSWTND,PDR,PREP"
+  },
+  "9148": {
+    "amount_gm": 120,
+    "description": "KIWI FRUIT,(CHINESE GOOSEBERRIES),FRSH,RAW"
+  },
+  "11506": {
+    "amount_gm": 80,
+    "description": "SWEET POTATO LEAVES,CKD,STMD,WO/ SALT"
+  },
+ 
+    "9150": {
+        "amount_gm": 50,
+        "description": "MANGOES,RAW"        
+    },
+  "9101": {
+    "amount_gm": 60,
+    "description": "FRUIT COCKTAIL,CND,EX HVY SYRUP,SOL&LIQUIDS"
+  },
+
+  "15229": {
+    "amount_gm": 85.0,
+    "description": "CUTTLEFISH,MXD SP,CKD,MOIST HEAT"
+  },
+  "20523": {
+    "amount_gm": 300,
+    "description": "RICE,WHITE,LONG-GRAIN,REG,CKD,UNENR,W/SALT"
+  }
+}
