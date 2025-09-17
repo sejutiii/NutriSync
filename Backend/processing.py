@@ -1,16 +1,23 @@
-import pandas as pd
+import csv
+from db import db
+from models.food import Food
 
-# Load the original CSV into a DataFrame for future processing
-df = pd.read_csv('food.csv')
-
-# Select the required columns: first two columns, 'Data.Household Weights.1st Household Weight', and 'Description'
-selected_columns = [
-	df.columns[0],
-	df.columns[1],
-	'Data.Household Weights(Gram)',
-	'Data.Household Weight Description'
-]
-df_selected = df[selected_columns]
-
-# Save the selected columns to a new CSV file
-df_selected.to_csv('food_selected.csv', index=False)
+async def import_food_csv(csv_path: str):
+	with open(csv_path, newline='', encoding='utf-8') as csvfile:
+		reader = csv.DictReader(csvfile)
+		foods = []
+		for row in reader:
+			# Convert numeric fields to float if possible
+			for k, v in row.items():
+				if v and k != "Nutrient Data Bank Number":
+					try:
+						row[k] = float(v)
+					except ValueError:
+						pass
+			food = Food(**row)
+			foods.append(food.dict(by_alias=True))
+		if foods:
+			await db["food"].insert_many(foods)
+			print(f"Inserted {len(foods)} food items into MongoDB.")
+		else:
+			print("No food items found in CSV.")

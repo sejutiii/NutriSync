@@ -6,3 +6,5 @@ pymongo
 pydantic
 email-validator
 pandasclear
+python-jose[cryptography]
+passlib[bcrypt]
