@@ -7,8 +7,8 @@ df = pd.read_csv('food.csv')
 selected_columns = [
 	df.columns[0],
 	df.columns[1],
-	'Data.Household Weights.1st Household Weight',
-	'Description'
+	'Data.Household Weights(Gram)',
+	'Data.Household Weight Description'
 ]
 df_selected = df[selected_columns]
 
