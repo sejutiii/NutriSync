@@ -6,7 +6,7 @@ from controllers.auth_controller import login_user
 router = APIRouter()
 
 router.post("/users")(create_user)
-router.get("/users/{user_id}")(get_user)
+router.get("/users/{email}")(get_user)
 router.get("/users")(get_all_users)
 router.delete("/users")(delete_all_users)
 router.post("/login")(login_user)
