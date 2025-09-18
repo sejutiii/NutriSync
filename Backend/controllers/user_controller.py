@@ -67,8 +67,8 @@ async def delete_all_users():
     result = await db["user"].delete_many({})
     return {"deleted_count": result.deleted_count}
 
-async def get_user(user_id: str):
-    user = await db["user"].find_one({"_id": ObjectId(user_id)})
+async def get_user(email: str):
+    user = await db["user"].find_one({"email": email})
     if not user:
         raise HTTPException(status_code=404, detail="User not found")
     user["_id"] = str(user["_id"])
