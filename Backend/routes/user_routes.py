@@ -30,5 +30,10 @@ router.post("/parse-input")(parse_input_route)
 # Gemini AI Chatbot endpoint
 router.include_router(chatbot_router, prefix="")
 
+
 # Shopping List Generator endpoint
 router.include_router(shopping_router, prefix="")
+
+# Budget-based Shopping List endpoint
+from routes.budget_routes import router as budget_router
+router.include_router(budget_router, prefix="")
