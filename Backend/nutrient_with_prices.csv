@@ -1,0 +1,57 @@
+Id,Food_Item,Nutrient,Price
+12061,ALMONDS,Magnesium,Manganese,Protein,Vitamin E,1800
+9041,BANANAS,Magnesium,Potassium,Vitamin B6,Vitamin C,150
+13950,BEEF,Choline,Iron,Protein,Vitamin B12,Vitamin B2,Zinc,750
+13327,BEEF LIVER,Choline,Copper,Selenium,Vitamin A,Vitamin B12,Vitamin B2,Vitamin B5,800
+12078,BRAZILNUTS,Selenium,2200
+11097,BROCCOLI,Potassium,Vitamin C,Vitamin K,200
+1145,BUTTER,Fats,550
+43143,CABBAGE,Vitamin K,60
+11683,CARROT,Potassium,Vitamin A,Vitamin K,80
+12585,CASHEW NUT,Copper,Magnesium,1400
+11968,CAULIFLOWER,Vitamin C,120
+1146,CHEESE,Calcium,Choline,Phosphorus,Protein,Vitamin B12,Zinc,450
+12006,CHIA SEEDS,Calcium,Fiber,Manganese,Phosphorus,Protein,2200
+5130,CHICKEN,Phosphorus,Protein,Selenium,Vitamin B6,190
+16056,CHICKPEAS,Fiber,Iron,Manganese,Phosphorus,120
+14214,COFFEE,Potassium,Vitamin B3,900
+15227,CRAB,Vitamin B12,700
+15229,CUTTLEFISH,Iron,Protein,Selenium,550
+9421,DATES MEDJOOL,Sugar,350
+13897,EGG,Cholesterol,Choline,Protein,Selenium,Vitamin B12,Vitamin B2,Vitamin B5,145
+43144,EGGPLANT,Vitamin K,70
+17204,FISH,Zinc,450
+4589,FISH OIL,Cholesterol,Vitamin A,1600
+12220,FLAXSEED,Fiber,Magnesium,Phosphorus,900
+2020,GARLIC,Vitamin B6,220
+2021,GINGER,Manganese,160
+9139,GUAVAS,Vitamin C,220
+14289,LEMON,Vitamin C,120
+16144,LENTILS,Copper,Fiber,Iron,Manganese,Protein,120
+15047,MACKEREL,Vitamin B12,350
+1155,MILK,Calcium,Choline,Phosphorus,Potassium,Protein,Vitamin B12,Vitamin B2,Vitamin B5,90
+12638,MIXED NUTS,Copper,Selenium,1700
+19303,MOLASSES,Sugar,220
+11268,MUSHROOMS SHIITAKE,Choline,Copper,Potassium,Selenium,Vitamin B5,Zinc,350
+11270,MUSTARD GREENS,Vitamin K,90
+2024,MUSTARD SEED YELLOW,Selenium,450
+20033,OATS,Fiber,Magnesium,Manganese,Phosphorus,Zinc,140
+11959,OKRA,Fiber,Magnesium,Vitamin C,Vitamin K,110
+14409,ORANGE,Vitamin C,160
+16156,PEANUT BUTTER,Copper,Iron,Vitamin A,Vitamin B6,Vitamin E,Zinc,420
+2033,POPPY SEED,Magnesium,550
+11507,POTATOES,Fiber,Manganese,Potassium,Vitamin B6,Vitamin C,55
+8214,PUMPKIN SEEDS,Iron,Magnesium,Phosphorus,Zinc,900
+20060,RICE,Magnesium,Manganese,Phosphorus,Potassium,Vitamin B1,Vitamin B3,Vitamin B5,Vitamin B6,110
+2047,SALT,Sodium,35
+12201,SESAME SEEDS,Calcium,Copper,Iron,Magnesium,Manganese,Phosphorus,Selenium,Zinc,650
+11856,SPINACH,Iron,Vitamin A,Vitamin K,90
+19334,SUGARS GRANULATED,Carbohydrates,Sugar,130
+12036,SUNFLOWER SEEDS,Copper,Phosphorus,Vitamin E,550
+11875,SWEET POTATO,Manganese,Potassium,Vitamin A,Vitamin C,90
+14366,TEA,Manganese,350
+11956,TOMATOES,Vitamin C,90
+4583,VEGETABLE OIL,Fats,Vitamin E,Vitamin K,220
+12154,WALNUTS,Copper,Manganese,1700
+20078,WHEAT FLOUR,Manganese,Selenium,Vitamin B5,Zinc,90
+11252,YOGURT,Calcium,Phosphorus,Protein,Vitamin B12,110
