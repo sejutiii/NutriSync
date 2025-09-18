@@ -9,3 +9,4 @@ pandas
 python-jose[cryptography]
 passlib[bcrypt]
 nltk
+google-generativeai
