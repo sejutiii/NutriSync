@@ -99,7 +99,7 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({
       }
       setIsLoading(false);
       return false;
-    } catch {
+    } catch (err) {
       setIsLoading(false);
       return false;
     }

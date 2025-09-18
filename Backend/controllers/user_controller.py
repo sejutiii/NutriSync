@@ -73,3 +73,10 @@ async def get_user(user_id: str):
         raise HTTPException(status_code=404, detail="User not found")
     user["_id"] = str(user["_id"])
     return User(**user)
+
+async def get_user_by_email(email: str):
+    user = await db["user"].find_one({"email": email})
+    if not user:
+        raise HTTPException(status_code=404, detail="User not found")
+    user["_id"] = str(user["_id"])
+    return User(**user)

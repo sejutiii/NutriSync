@@ -1,29 +1,35 @@
-import React, { useState } from 'react';
-import { Navigate, Link } from 'react-router-dom';
-import { Button } from '@/components/ui/button';
-import { Input } from '@/components/ui/input';
-import { Label } from '@/components/ui/label';
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
-import { Checkbox } from '@/components/ui/checkbox';
-import { useAuth } from '@/contexts/AuthContext';
-import { useTheme } from '@/contexts/ThemeContext';
-import { useToast } from '@/hooks/use-toast';
-import { Eye, EyeOff } from 'lucide-react';
+import React, { useState } from "react";
+import { Navigate, Link } from "react-router-dom";
+import { Button } from "@/components/ui/button";
+import { Input } from "@/components/ui/input";
+import { Label } from "@/components/ui/label";
+import {
+  Card,
+  CardContent,
+  CardDescription,
+  CardHeader,
+  CardTitle,
+} from "@/components/ui/card";
+import { Checkbox } from "@/components/ui/checkbox";
+import { useAuth } from "@/contexts/AuthContext";
+import { useTheme } from "@/contexts/ThemeContext";
+import { useToast } from "@/hooks/use-toast";
+import { Eye, EyeOff } from "lucide-react";
 
 const Auth: React.FC = () => {
   const [isLogin, setIsLogin] = useState(true);
   const [formData, setFormData] = useState({
-    email: '',
-    password: '',
-    name: '',
-    age: '',
-    height: '',
-    weight: '',
-    gender: 'M' as 'M' | 'F'
+    email: "",
+    password: "",
+    name: "",
+    age: "",
+    height: "",
+    weight: "",
+    gender: "M" as "M" | "F",
   });
   const [showPassword, setShowPassword] = useState(false);
   const [rememberMe, setRememberMe] = useState(false);
-  
+
   const { user, login, signup, isLoading } = useAuth();
   const { t, language } = useTheme();
   const { toast } = useToast();
@@ -32,18 +38,28 @@ const Auth: React.FC = () => {
     return <Navigate to="/" replace />;
   }
 
-  const handleInputChange = (e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>) => {
+  const handleInputChange = (
+    e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>
+  ) => {
     const { name, value } = e.target;
-    setFormData(prev => ({
+    setFormData((prev) => ({
       ...prev,
-      [name]: value
+      [name]: value,
     }));
   };
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    
-    if (!formData.email || !formData.password || (!isLogin && !formData.name)) {
+
+    if (
+      !formData.email ||
+      !formData.password ||
+      !formData.name ||
+      !formData.age ||
+      !formData.height ||
+      !formData.weight ||
+      !formData.gender
+    ) {
       toast({
         title: "Error",
         description: "Please fill in all fields",
@@ -56,13 +72,13 @@ const Auth: React.FC = () => {
       const success = await login(formData.email, formData.password);
       if (success) {
         toast({
-          title: t('auth.welcome'),
+          title: t("auth.welcome"),
           description: "Welcome back!",
         });
       } else {
         toast({
           title: "Error",
-          description: t('auth.error'),
+          description: t("auth.error"),
           variant: "destructive",
         });
       }
@@ -70,26 +86,29 @@ const Auth: React.FC = () => {
       const age = parseInt(formData.age);
       const height = parseFloat(formData.height);
       const weight = parseFloat(formData.weight);
-      
-      if (!age || !height || !weight) {
-        toast({
-          title: "Error",
-          description: "Please fill in all required fields",
-          variant: "destructive",
-        });
-        return;
-      }
-      
-      const success = await signup(formData.name, formData.email, formData.password, age, height, weight, formData.gender);
+
+      const success = await signup(
+        formData.name,
+        formData.email,
+        formData.password,
+        age,
+        height,
+        weight,
+        formData.gender
+      );
       if (success) {
-        toast({
-          title: t('auth.welcome'),
-          description: "Account created successfully!",
-        });
+        // Optionally auto-login here
+        const loginSuccess = await login(formData.email, formData.password);
+        if (loginSuccess) {
+          toast({
+            title: t("auth.welcome"),
+            description: "Account created and logged in!",
+          });
+        }
       } else {
         toast({
           title: "Error",
-          description: t('auth.error'),
+          description: t("auth.error"),
           variant: "destructive",
         });
       }
@@ -102,24 +121,34 @@ const Auth: React.FC = () => {
       <div className="absolute inset-0 bg-gradient-hero">
         <div className="absolute inset-0 pattern-bg opacity-30" />
         <div className="absolute top-20 left-20 w-72 h-72 bg-primary/20 rounded-full blur-3xl animate-float" />
-        <div className="absolute bottom-20 right-20 w-96 h-96 bg-secondary/20 rounded-full blur-3xl animate-float" style={{ animationDelay: '2s' }} />
-        <div className="absolute top-1/2 left-1/3 w-64 h-64 bg-accent/20 rounded-full blur-3xl animate-float" style={{ animationDelay: '4s' }} />
+        <div
+          className="absolute bottom-20 right-20 w-96 h-96 bg-secondary/20 rounded-full blur-3xl animate-float"
+          style={{ animationDelay: "2s" }}
+        />
+        <div
+          className="absolute top-1/2 left-1/3 w-64 h-64 bg-accent/20 rounded-full blur-3xl animate-float"
+          style={{ animationDelay: "4s" }}
+        />
       </div>
 
       {/* Header */}
       <div className="relative z-10 pt-8 pb-4">
         <div className="text-center">
-          <Link 
-            to="/" 
+          <Link
+            to="/"
             className={`inline-flex items-center space-x-2 font-bold text-4xl ${
-              language === 'bn' ? 'font-bengali' : 'font-inter'
+              language === "bn" ? "font-bengali" : "font-inter"
             } text-white hover:scale-105 transition-transform duration-200`}
           >
             <span className="animate-pulse-soft">🥬</span>
-            <span>{t('app.name')}</span>
+            <span>{t("app.name")}</span>
           </Link>
-          <p className={`mt-2 text-white/80 ${language === 'bn' ? 'font-bengali' : ''}`}>
-            {t('app.tagline')}
+          <p
+            className={`mt-2 text-white/80 ${
+              language === "bn" ? "font-bengali" : ""
+            }`}
+          >
+            {t("app.tagline")}
           </p>
         </div>
       </div>
@@ -128,21 +157,28 @@ const Auth: React.FC = () => {
       <div className="relative z-10 flex items-center justify-center px-4 pb-8">
         <Card className="w-full max-w-md bg-white/95 dark:bg-gray-900/95 backdrop-blur-lg border-0 shadow-strong">
           <CardHeader className="text-center">
-            <CardTitle className={`text-2xl ${language === 'bn' ? 'font-bengali' : ''}`}>
-              {isLogin ? t('auth.login') : t('auth.signup')}
+            <CardTitle
+              className={`text-2xl ${language === "bn" ? "font-bengali" : ""}`}
+            >
+              {isLogin ? t("auth.login") : t("auth.signup")}
             </CardTitle>
-            <CardDescription className={language === 'bn' ? 'font-bengali' : ''}>
-              {isLogin ? t('auth.welcome') : 'Create your account'}
+            <CardDescription
+              className={language === "bn" ? "font-bengali" : ""}
+            >
+              {isLogin ? t("auth.welcome") : "Create your account"}
             </CardDescription>
           </CardHeader>
-          
+
           <CardContent>
             <form onSubmit={handleSubmit} className="space-y-4">
               {!isLogin && (
                 <>
                   <div className="space-y-2">
-                    <Label htmlFor="name" className={language === 'bn' ? 'font-bengali' : ''}>
-                      {t('auth.name')}
+                    <Label
+                      htmlFor="name"
+                      className={language === "bn" ? "font-bengali" : ""}
+                    >
+                      {t("auth.name")}
                     </Label>
                     <Input
                       id="name"
@@ -150,15 +186,18 @@ const Auth: React.FC = () => {
                       type="text"
                       value={formData.name}
                       onChange={handleInputChange}
-                      placeholder={t('auth.name')}
+                      placeholder={t("auth.name")}
                       className="focus:ring-primary focus:border-primary"
                       required={!isLogin}
                     />
                   </div>
-                  
+
                   <div className="grid grid-cols-2 gap-4">
                     <div className="space-y-2">
-                      <Label htmlFor="age" className={language === 'bn' ? 'font-bengali' : ''}>
+                      <Label
+                        htmlFor="age"
+                        className={language === "bn" ? "font-bengali" : ""}
+                      >
                         Age
                       </Label>
                       <Input
@@ -172,28 +211,34 @@ const Auth: React.FC = () => {
                         required={!isLogin}
                       />
                     </div>
-                    
+
                     <div className="space-y-2">
-                      <Label htmlFor="gender" className={language === 'bn' ? 'font-bengali' : ''}>
+                      <Label
+                        htmlFor="gender"
+                        className={language === "bn" ? "font-bengali" : ""}
+                      >
                         Gender
                       </Label>
                       <select
                         id="gender"
-                        name="gender"
                         value={formData.gender}
+                        name="gender"
                         onChange={handleInputChange}
+                        required
                         className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-primary dark:bg-gray-800 dark:border-gray-600"
-                        required={!isLogin}
                       >
                         <option value="M">Male</option>
                         <option value="F">Female</option>
                       </select>
                     </div>
                   </div>
-                  
+
                   <div className="grid grid-cols-2 gap-4">
                     <div className="space-y-2">
-                      <Label htmlFor="height" className={language === 'bn' ? 'font-bengali' : ''}>
+                      <Label
+                        htmlFor="height"
+                        className={language === "bn" ? "font-bengali" : ""}
+                      >
                         Height (cm)
                       </Label>
                       <Input
@@ -208,9 +253,12 @@ const Auth: React.FC = () => {
                         required={!isLogin}
                       />
                     </div>
-                    
+
                     <div className="space-y-2">
-                      <Label htmlFor="weight" className={language === 'bn' ? 'font-bengali' : ''}>
+                      <Label
+                        htmlFor="weight"
+                        className={language === "bn" ? "font-bengali" : ""}
+                      >
                         Weight (kg)
                       </Label>
                       <Input
@@ -228,10 +276,13 @@ const Auth: React.FC = () => {
                   </div>
                 </>
               )}
-              
+
               <div className="space-y-2">
-                <Label htmlFor="email" className={language === 'bn' ? 'font-bengali' : ''}>
-                  {t('auth.email')}
+                <Label
+                  htmlFor="email"
+                  className={language === "bn" ? "font-bengali" : ""}
+                >
+                  {t("auth.email")}
                 </Label>
                 <Input
                   id="email"
@@ -244,10 +295,13 @@ const Auth: React.FC = () => {
                   required
                 />
               </div>
-              
+
               <div className="space-y-2">
-                <Label htmlFor="password" className={language === 'bn' ? 'font-bengali' : ''}>
-                  {t('auth.password')}
+                <Label
+                  htmlFor="password"
+                  className={language === "bn" ? "font-bengali" : ""}
+                >
+                  {t("auth.password")}
                 </Label>
                 <div className="relative">
                   <Input
@@ -267,7 +321,11 @@ const Auth: React.FC = () => {
                     onClick={() => setShowPassword(!showPassword)}
                     className="absolute right-0 top-0 h-full px-3 hover:bg-transparent"
                   >
-                    {showPassword ? <EyeOff className="h-4 w-4" /> : <Eye className="h-4 w-4" />}
+                    {showPassword ? (
+                      <EyeOff className="h-4 w-4" />
+                    ) : (
+                      <Eye className="h-4 w-4" />
+                    )}
                   </Button>
                 </div>
               </div>
@@ -275,20 +333,24 @@ const Auth: React.FC = () => {
               {isLogin && (
                 <div className="flex items-center justify-between">
                   <div className="flex items-center space-x-2">
-                    <Checkbox 
-                      id="remember" 
+                    <Checkbox
+                      id="remember"
                       checked={rememberMe}
-                      onCheckedChange={(checked) => setRememberMe(checked === true)}
+                      onCheckedChange={(checked) =>
+                        setRememberMe(checked === true)
+                      }
                     />
-                    <Label 
-                      htmlFor="remember" 
-                      className={`text-sm ${language === 'bn' ? 'font-bengali' : ''}`}
+                    <Label
+                      htmlFor="remember"
+                      className={`text-sm ${
+                        language === "bn" ? "font-bengali" : ""
+                      }`}
                     >
-                      {t('auth.remember')}
+                      {t("auth.remember")}
                     </Label>
                   </div>
                   <Button variant="link" className="p-0 h-auto text-sm">
-                    {t('auth.forgot')}
+                    {t("auth.forgot")}
                   </Button>
                 </div>
               )}
@@ -298,20 +360,27 @@ const Auth: React.FC = () => {
                 className="w-full bg-gradient-primary hover:shadow-glow transition-all duration-300"
                 disabled={isLoading}
               >
-                {isLoading ? t('common.loading') : (isLogin ? t('auth.login') : t('auth.signup'))}
+                {isLoading
+                  ? t("common.loading")
+                  : isLogin
+                  ? t("auth.login")
+                  : t("auth.signup")}
               </Button>
             </form>
 
             <div className="mt-6 text-center">
-              <p className={`text-sm text-muted-foreground ${language === 'bn' ? 'font-bengali' : ''}`}>
-                {isLogin ? t('auth.noAccount') : t('auth.hasAccount')}
-                {' '}
+              <p
+                className={`text-sm text-muted-foreground ${
+                  language === "bn" ? "font-bengali" : ""
+                }`}
+              >
+                {isLogin ? t("auth.noAccount") : t("auth.hasAccount")}{" "}
                 <Button
                   variant="link"
                   onClick={() => setIsLogin(!isLogin)}
                   className="p-0 h-auto font-medium text-primary"
                 >
-                  {isLogin ? t('auth.signupHere') : t('auth.loginHere')}
+                  {isLogin ? t("auth.signupHere") : t("auth.loginHere")}
                 </Button>
               </p>
             </div>

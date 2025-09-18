@@ -10,13 +10,13 @@ class UserCreate(BaseModel):
     height: float
     weight: float
     gender: Literal["M", "F"]
-    lifestyle: Literal[
-        "Sedentary",
-        "Lightly active",
-        "Moderately active",
-        "Very active",
-        "Extra active"
-    ] = "Moderately active"
+    # lifestyle: Literal[
+    #     "Sedentary",
+    #     "Lightly active",
+    #     "Moderately active",
+    #     "Very active",
+    #     "Extra active"
+    # ] = "Moderately active"
 
 # Login request schema
 class UserLogin(BaseModel):
