@@ -12,9 +12,15 @@ import { Eye, EyeOff } from 'lucide-react';
 
 const Auth: React.FC = () => {
   const [isLogin, setIsLogin] = useState(true);
-  const [email, setEmail] = useState('');
-  const [password, setPassword] = useState('');
-  const [name, setName] = useState('');
+  const [formData, setFormData] = useState({
+    email: '',
+    password: '',
+    name: '',
+    age: '',
+    height: '',
+    weight: '',
+    gender: 'M' as 'M' | 'F'
+  });
   const [showPassword, setShowPassword] = useState(false);
   const [rememberMe, setRememberMe] = useState(false);
   
@@ -26,10 +32,18 @@ const Auth: React.FC = () => {
     return <Navigate to="/" replace />;
   }
 
+  const handleInputChange = (e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>) => {
+    const { name, value } = e.target;
+    setFormData(prev => ({
+      ...prev,
+      [name]: value
+    }));
+  };
+
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     
-    if (!email || !password || (!isLogin && !name)) {
+    if (!formData.email || !formData.password || (!isLogin && !formData.name)) {
       toast({
         title: "Error",
         description: "Please fill in all fields",
@@ -38,21 +52,47 @@ const Auth: React.FC = () => {
       return;
     }
 
-    const success = isLogin 
-      ? await login(email, password)
-      : await signup(name, email, password);
-
-    if (success) {
-      toast({
-        title: t('auth.welcome'),
-        description: isLogin ? "Welcome back!" : "Account created successfully!",
-      });
+    if (isLogin) {
+      const success = await login(formData.email, formData.password);
+      if (success) {
+        toast({
+          title: t('auth.welcome'),
+          description: "Welcome back!",
+        });
+      } else {
+        toast({
+          title: "Error",
+          description: t('auth.error'),
+          variant: "destructive",
+        });
+      }
     } else {
-      toast({
-        title: "Error",
-        description: t('auth.error'),
-        variant: "destructive",
-      });
+      const age = parseInt(formData.age);
+      const height = parseFloat(formData.height);
+      const weight = parseFloat(formData.weight);
+      
+      if (!age || !height || !weight) {
+        toast({
+          title: "Error",
+          description: "Please fill in all required fields",
+          variant: "destructive",
+        });
+        return;
+      }
+      
+      const success = await signup(formData.name, formData.email, formData.password, age, height, weight, formData.gender);
+      if (success) {
+        toast({
+          title: t('auth.welcome'),
+          description: "Account created successfully!",
+        });
+      } else {
+        toast({
+          title: "Error",
+          description: t('auth.error'),
+          variant: "destructive",
+        });
+      }
     }
   };
 
@@ -99,20 +139,94 @@ const Auth: React.FC = () => {
           <CardContent>
             <form onSubmit={handleSubmit} className="space-y-4">
               {!isLogin && (
-                <div className="space-y-2">
-                  <Label htmlFor="name" className={language === 'bn' ? 'font-bengali' : ''}>
-                    {t('auth.name')}
-                  </Label>
-                  <Input
-                    id="name"
-                    type="text"
-                    value={name}
-                    onChange={(e) => setName(e.target.value)}
-                    placeholder={t('auth.name')}
-                    className="focus:ring-primary focus:border-primary"
-                    required={!isLogin}
-                  />
-                </div>
+                <>
+                  <div className="space-y-2">
+                    <Label htmlFor="name" className={language === 'bn' ? 'font-bengali' : ''}>
+                      {t('auth.name')}
+                    </Label>
+                    <Input
+                      id="name"
+                      name="name"
+                      type="text"
+                      value={formData.name}
+                      onChange={handleInputChange}
+                      placeholder={t('auth.name')}
+                      className="focus:ring-primary focus:border-primary"
+                      required={!isLogin}
+                    />
+                  </div>
+                  
+                  <div className="grid grid-cols-2 gap-4">
+                    <div className="space-y-2">
+                      <Label htmlFor="age" className={language === 'bn' ? 'font-bengali' : ''}>
+                        Age
+                      </Label>
+                      <Input
+                        id="age"
+                        name="age"
+                        type="number"
+                        value={formData.age}
+                        onChange={handleInputChange}
+                        placeholder="Enter age"
+                        className="focus:ring-primary focus:border-primary"
+                        required={!isLogin}
+                      />
+                    </div>
+                    
+                    <div className="space-y-2">
+                      <Label htmlFor="gender" className={language === 'bn' ? 'font-bengali' : ''}>
+                        Gender
+                      </Label>
+                      <select
+                        id="gender"
+                        name="gender"
+                        value={formData.gender}
+                        onChange={handleInputChange}
+                        className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-primary dark:bg-gray-800 dark:border-gray-600"
+                        required={!isLogin}
+                      >
+                        <option value="M">Male</option>
+                        <option value="F">Female</option>
+                      </select>
+                    </div>
+                  </div>
+                  
+                  <div className="grid grid-cols-2 gap-4">
+                    <div className="space-y-2">
+                      <Label htmlFor="height" className={language === 'bn' ? 'font-bengali' : ''}>
+                        Height (cm)
+                      </Label>
+                      <Input
+                        id="height"
+                        name="height"
+                        type="number"
+                        step="0.1"
+                        value={formData.height}
+                        onChange={handleInputChange}
+                        placeholder="Enter height"
+                        className="focus:ring-primary focus:border-primary"
+                        required={!isLogin}
+                      />
+                    </div>
+                    
+                    <div className="space-y-2">
+                      <Label htmlFor="weight" className={language === 'bn' ? 'font-bengali' : ''}>
+                        Weight (kg)
+                      </Label>
+                      <Input
+                        id="weight"
+                        name="weight"
+                        type="number"
+                        step="0.1"
+                        value={formData.weight}
+                        onChange={handleInputChange}
+                        placeholder="Enter weight"
+                        className="focus:ring-primary focus:border-primary"
+                        required={!isLogin}
+                      />
+                    </div>
+                  </div>
+                </>
               )}
               
               <div className="space-y-2">
@@ -121,9 +235,10 @@ const Auth: React.FC = () => {
                 </Label>
                 <Input
                   id="email"
+                  name="email"
                   type="email"
-                  value={email}
-                  onChange={(e) => setEmail(e.target.value)}
+                  value={formData.email}
+                  onChange={handleInputChange}
                   placeholder="demo@demo.com"
                   className="focus:ring-primary focus:border-primary"
                   required
@@ -137,9 +252,10 @@ const Auth: React.FC = () => {
                 <div className="relative">
                   <Input
                     id="password"
+                    name="password"
                     type={showPassword ? "text" : "password"}
-                    value={password}
-                    onChange={(e) => setPassword(e.target.value)}
+                    value={formData.password}
+                    onChange={handleInputChange}
                     placeholder="demo123"
                     className="focus:ring-primary focus:border-primary pr-10"
                     required
