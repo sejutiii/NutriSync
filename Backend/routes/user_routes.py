@@ -11,7 +11,7 @@ from controllers.analyze_controller import analyze_log
 from controllers.calories_controller import analyze_calories
 from controllers.chatbot_controller import router as chatbot_router
 from routes.shopping_routes import router as shopping_router
-from controllers.auth_controller import login_user
+from controllers.auth_controller import login_user, logout_user
 
 router = APIRouter()
 
@@ -20,6 +20,7 @@ router.get("/users/email/{email}")(get_user_by_email)
 router.get("/users")(get_all_users)
 router.delete("/users")(delete_all_users)
 router.post("/login")(login_user)
+router.post("/logout")(logout_user)
 router.put("/users/update")(update_user_info)
 router.post("/analyze/nutrients/email/{email}")(analyze_log)
 router.get("/analyze/calories/email/{email}")(analyze_calories)
