@@ -21,8 +21,7 @@ interface AuthContextType {
     age: number,
     height: number,
     weight: number,
-    gender: "M" | "F",
-    lifestyle: string
+    gender: "M" | "F"
   ) => Promise<boolean>;
   logout: () => void;
   isLoading: boolean;
@@ -77,8 +76,7 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({
     age: number,
     height: number,
     weight: number,
-    gender: "M" | "F",
-    lifestyle: string
+    gender: "M" | "F"
   ): Promise<boolean> => {
     setIsLoading(true);
     try {
@@ -93,7 +91,6 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({
           height,
           weight,
           gender,
-          lifestyle,
         }),
       });
       const data = await res.json();
