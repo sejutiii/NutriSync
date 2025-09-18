@@ -10,6 +10,7 @@ from controllers.parser_controller import parse_input_route
 from controllers.analyze_controller import analyze_log
 from controllers.calories_controller import analyze_calories
 from controllers.chatbot_controller import router as chatbot_router
+from routes.shopping_routes import router as shopping_router
 from controllers.auth_controller import login_user
 
 router = APIRouter()
@@ -27,3 +28,6 @@ router.post("/parse-input")(parse_input_route)
 
 # Gemini AI Chatbot endpoint
 router.include_router(chatbot_router, prefix="")
+
+# Shopping List Generator endpoint
+router.include_router(shopping_router, prefix="")
