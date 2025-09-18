@@ -7,33 +7,17 @@ from controllers.user_controller import get_current_user
 import csv
 
 FOOD_CSV_PATH = "food.csv"
-LOG_JSON_PATH = "logs-example.json"
+LOG_JSON_PATH = "parser.json"
 OUTPUT_JSON_PATH = "output.json"
 
-async def analyze_log():
+async def analyze_log(email: str):
     try:
-        # Get current user info
-        # FastAPI dependency injection: request is passed automatically
-        async def get_user_info(request: Request):
-            user = await get_current_user(request)
-            return user
-
-        # This is a workaround for FastAPI dependency injection in async controller
-        # In actual FastAPI, use: current_user: dict = Depends(get_current_user)
-        # Here, we simulate request extraction
-        import inspect
-        frame = inspect.currentframe()
-        request = None
-        while frame:
-            if 'request' in frame.f_locals:
-                request = frame.f_locals['request']
-                break
-            frame = frame.f_back
-        if not request:
-            raise HTTPException(status_code=400, detail="Request object not found")
-        current_user = await get_current_user(request)
-        age = current_user.get('age')
-        gender = current_user.get('gender')
+        # Fetch user info from DB using email
+        user = await db["user"].find_one({"email": email})
+        if not user:
+            raise HTTPException(status_code=404, detail="User not found")
+        age = user.get('age')
+        gender = user.get('gender')
 
         # Load food.csv into DataFrame
         df = pd.read_csv(FOOD_CSV_PATH)
@@ -68,10 +52,18 @@ async def analyze_log():
             json.dump(total_nutrition, f, indent=2)
 
         # --- Begin final.py logic integration ---
+        # Map age to group
+        if 3 <= age <= 15:
+            AGE_GROUP = "child"
+        elif 16 <= age <= 50:
+            AGE_GROUP = "adult"
+        elif 51 <= age <= 90:
+            AGE_GROUP = "old"
+        else:
+            AGE_GROUP = str(age)  # fallback
+        GENDER = gender
         # Load baseline data from CSV
         baseline_data = {}
-        AGE_GROUP = str(age)
-        GENDER = gender
         with open("baseline.csv", "r", encoding="utf-8") as f:
             reader = csv.DictReader(f)
             for row in reader:

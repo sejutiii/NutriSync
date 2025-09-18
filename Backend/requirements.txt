@@ -8,3 +8,4 @@ email-validator
 pandas
 python-jose[cryptography]
 passlib[bcrypt]
+nltk
