@@ -50,14 +50,15 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({
       const res = await fetch("http://127.0.0.1:8000/login", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ email, password }),
+        body: JSON.stringify({ email, password }), // Changed to send only email and password
       });
       const data = await res.json();
-      if (res.ok && data.token) {
-        localStorage.setItem("nutrisync-token", data.token);
+      if (res.ok) {
+        // Simplified check
         setUser(data.user); // Exclude password!
         localStorage.setItem("nutrisync-user", JSON.stringify(data.user));
         setIsLoading(false);
+        console.log("Login successful:", data.user);
         return true;
       }
       setIsLoading(false);
@@ -95,6 +96,7 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({
       const data = await res.json();
       if (res.ok && data._id) {
         setIsLoading(false);
+        console.log("Signup successful:", data);
         return true;
       }
       setIsLoading(false);

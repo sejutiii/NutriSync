@@ -51,24 +51,16 @@ const Auth: React.FC = () => {
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
 
-    if (
-      !formData.email ||
-      !formData.password ||
-      !formData.name ||
-      !formData.age ||
-      !formData.height ||
-      !formData.weight ||
-      !formData.gender
-    ) {
-      toast({
-        title: "Error",
-        description: "Please fill in all fields",
-        variant: "destructive",
-      });
-      return;
-    }
-
+    // Check for login specific fields
     if (isLogin) {
+      if (!formData.email || !formData.password) {
+        toast({
+          title: "Error",
+          description: "Please fill in all fields",
+          variant: "destructive",
+        });
+        return;
+      }
       const success = await login(formData.email, formData.password);
       if (success) {
         toast({
@@ -83,6 +75,24 @@ const Auth: React.FC = () => {
         });
       }
     } else {
+      // Check for signup specific fields
+      if (
+        !formData.email ||
+        !formData.password ||
+        !formData.name ||
+        !formData.age ||
+        !formData.height ||
+        !formData.weight ||
+        !formData.gender
+      ) {
+        toast({
+          title: "Error",
+          description: "Please fill in all fields",
+          variant: "destructive",
+        });
+        return;
+      }
+
       const age = parseInt(formData.age);
       const height = parseFloat(formData.height);
       const weight = parseFloat(formData.weight);
@@ -98,6 +108,8 @@ const Auth: React.FC = () => {
       );
       if (success) {
         // Optionally auto-login here
+        // The original code already does this, but it's a good practice to
+        // make sure it's working as expected.
         const loginSuccess = await login(formData.email, formData.password);
         if (loginSuccess) {
           toast({

@@ -26,8 +26,24 @@ async def login_user(login: UserLogin):
     user = await db["user"].find_one({"email": login.email})
     if not user or not verify_password(login.password, user.get("password", "")):
         raise HTTPException(status_code=401, detail="Invalid email or password")
+    
+    # Create the access token
     access_token = create_access_token({"user_id": str(user["_id"])})
-    response = JSONResponse(content={"message": "Login successful"})
+    
+    # Exclude the password from the user data before sending to the frontend
+    user_data = user.copy()
+    user_data.pop("password", None)
+    user_data["_id"] = str(user_data["_id"])
+    
+    # Create the JSON response with token and user data
+    response_content = {
+        "token": access_token,
+        "user": user_data
+    }
+    
+    response = JSONResponse(content=response_content)
+    
+    # Set the cookie
     response.set_cookie(
         key="access_token",
         value=access_token,
@@ -37,5 +53,5 @@ async def login_user(login: UserLogin):
         samesite="lax",
         secure=False  # Set to True in production with HTTPS
     )
-    return response
+    
     return response
