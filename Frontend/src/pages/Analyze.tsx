@@ -44,6 +44,16 @@ interface FoodItem {
   amount: number;
   unit: string;
 }
+interface CalorieAnalysisResult {
+  email: string;
+  required_calories: number;
+  actual_intake: number;
+  status: "Above requirement" | "Below requirement" | "Meets requirement";
+}
+
+interface NutritionAnalysisResult {
+  [key: string]: number; // Example: { "Vitamin A": -1, "Calcium": 0 }
+}
 
 const Analyze: React.FC = () => {
   const { t, language } = useTheme();
@@ -60,6 +70,10 @@ const Analyze: React.FC = () => {
   const [isAnalyzing, setIsAnalyzing] = useState(false);
   const [foodInput, setFoodInput] = useState("");
   const [foodLogged, setFoodLogged] = useState(false);
+  const [nutritionResults, setNutritionResults] =
+    useState<NutritionAnalysisResult | null>(null);
+  const [calorieResults, setCalorieResults] =
+    useState<CalorieAnalysisResult | null>(null);
 
   const foodDatabase = {
     carbs: {
@@ -232,7 +246,7 @@ const Analyze: React.FC = () => {
     setUnit("");
   };
 
-  const handleLogFood = () => {
+  const handleLogFood = async () => {
     if (!foodInput.trim()) {
       toast({
         title: "Error",
@@ -241,14 +255,42 @@ const Analyze: React.FC = () => {
       });
       return;
     }
-    setFoodLogged(true);
-    toast({
-      title: "Success",
-      description: "Food logged successfully!",
-    });
+    console.log(foodInput);
+    setIsAnalyzing(true);
+    try {
+      const response = await fetch("http://127.0.0.1:8001/parse-input", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({ input: foodInput }),
+      });
+
+      if (!response.ok) {
+        throw new Error("Failed to parse food input.");
+      }
+
+      const result = await response.json();
+      console.log("Result");
+      console.log(result); // For debugging
+      setFoodLogged(true);
+      toast({
+        title: "Success",
+        description: "Food logged successfully!",
+      });
+    } catch (error) {
+      console.error(error);
+      toast({
+        title: "Error",
+        description: "Failed to log food. Please try again.",
+        variant: "destructive",
+      });
+    } finally {
+      setIsAnalyzing(false);
+    }
   };
 
-  const handleLogFoodQuick = () => {
+  const handleLogFoodQuick = async () => {
     if (selectedFoods.length === 0) {
       toast({
         title: "Error",
@@ -257,25 +299,117 @@ const Analyze: React.FC = () => {
       });
       return;
     }
-    setFoodLogged(true);
-    toast({
-      title: "Success",
-      description: "Food logged successfully!",
-    });
+
+    setIsAnalyzing(true);
+    setNutritionResults(null);
+    setCalorieResults(null);
+
+    // Format the selected foods into a string for the parser
+    const foodString = selectedFoods
+      .map((food) => {
+        // Use the displayed unit, which is more human-readable
+        return `${food.amount} ${getUnitDisplay(food.unit)} ${food.name}`;
+      })
+      .join(" / ");
+
+    try {
+      const response = await fetch("/parse-input", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({ input: foodString }),
+      });
+
+      if (!response.ok) {
+        throw new Error("Failed to log food.");
+      }
+
+      const result = await response.json();
+      console.log(result);
+      setFoodLogged(true);
+      toast({
+        title: "Success",
+        description: "Food logged successfully!",
+      });
+    } catch (error) {
+      console.error(error);
+      toast({
+        title: "Error",
+        description: "Failed to log food. Please try again.",
+        variant: "destructive",
+      });
+    } finally {
+      setIsAnalyzing(false);
+    }
   };
 
-  const handleAnalyzeNutritions = () => {
-    toast({
-      title: "Analyzing Nutritions...",
-      description: "This feature is coming soon!",
-    });
+  const handleAnalyzeNutritions = async () => {
+    if (!user || !user.email) {
+      toast({
+        title: "Error",
+        description: "User email not found.",
+        variant: "destructive",
+      });
+      return;
+    }
+    setIsAnalyzing(true);
+    setNutritionResults(null);
+    try {
+      const response = await fetch(`/analyze/nutrients/email/${user.email}`);
+      if (!response.ok) {
+        throw new Error("Failed to analyze nutritions.");
+      }
+      const data = await response.json();
+      setNutritionResults(data.nutrition_analysis);
+      toast({
+        title: "Success",
+        description: "Nutrition analysis complete!",
+      });
+    } catch (error) {
+      console.error(error);
+      toast({
+        title: "Error",
+        description: "Failed to analyze nutritions. Please try again.",
+        variant: "destructive",
+      });
+    } finally {
+      setIsAnalyzing(false);
+    }
   };
 
-  const handleAnalyzeCalories = () => {
-    toast({
-      title: "Analyzing Calories...",
-      description: "This feature is coming soon!",
-    });
+  const handleAnalyzeCalories = async () => {
+    if (!user || !user.email) {
+      toast({
+        title: "Error",
+        description: "User email not found.",
+        variant: "destructive",
+      });
+      return;
+    }
+    setIsAnalyzing(true);
+    setCalorieResults(null);
+    try {
+      const response = await fetch(`/analyze/calories/email/${user.email}`);
+      if (!response.ok) {
+        throw new Error("Failed to analyze calories.");
+      }
+      const data = await response.json();
+      setCalorieResults(data);
+      toast({
+        title: "Success",
+        description: "Calorie analysis complete!",
+      });
+    } catch (error) {
+      console.error(error);
+      toast({
+        title: "Error",
+        description: "Failed to analyze calories. Please try again.",
+        variant: "destructive",
+      });
+    } finally {
+      setIsAnalyzing(false);
+    }
   };
 
   const getUnitDisplay = (unitKey: string) => {
