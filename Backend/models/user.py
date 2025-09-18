@@ -10,6 +10,13 @@ class UserCreate(BaseModel):
     height: float
     weight: float
     gender: Literal["M", "F"]
+    lifestyle: Literal[
+        "Sedentary",
+        "Lightly active",
+        "Moderately active",
+        "Very active",
+        "Extra active"
+    ] = "Moderately active"
 
 # Login request schema
 class UserLogin(BaseModel):
@@ -26,6 +33,13 @@ class User(BaseModel):
     height: float
     weight: float
     gender: Literal["M", "F"]
+    lifestyle: Literal[
+        "Sedentary",
+        "Lightly active",
+        "Moderately active",
+        "Very active",
+        "Extra active"
+    ] = "Moderately active"
 
     class Config:
         allow_population_by_field_name = True
