@@ -1,7 +1,6 @@
 from fastapi import APIRouter
 from controllers.user_controller import (
     create_user,
-    get_user,
     get_user_by_email,
     get_all_users,
     delete_all_users,
@@ -15,7 +14,7 @@ from controllers.auth_controller import login_user
 router = APIRouter()
 
 router.post("/users")(create_user)
-router.get("/users/{email}")(get_user)
+router.get("/users/email/{email}")(get_user_by_email)
 router.get("/users")(get_all_users)
 router.delete("/users")(delete_all_users)
 router.post("/login")(login_user)

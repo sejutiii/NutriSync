@@ -26,6 +26,12 @@ const Auth: React.FC = () => {
     height: "",
     weight: "",
     gender: "M" as "M" | "F",
+    lifestyle: "Moderately active" as
+      | "Sedentary"
+      | "Lightly active"
+      | "Moderately active"
+      | "Very active"
+      | "Extra active",
   });
   const [showPassword, setShowPassword] = useState(false);
   const [rememberMe, setRememberMe] = useState(false);
@@ -51,24 +57,16 @@ const Auth: React.FC = () => {
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
 
-    if (
-      !formData.email ||
-      !formData.password ||
-      !formData.name ||
-      !formData.age ||
-      !formData.height ||
-      !formData.weight ||
-      !formData.gender
-    ) {
-      toast({
-        title: "Error",
-        description: "Please fill in all fields",
-        variant: "destructive",
-      });
-      return;
-    }
-
+    // Check for login specific fields
     if (isLogin) {
+      if (!formData.email || !formData.password) {
+        toast({
+          title: "Error",
+          description: "Please fill in all fields",
+          variant: "destructive",
+        });
+        return;
+      }
       const success = await login(formData.email, formData.password);
       if (success) {
         toast({
@@ -83,6 +81,24 @@ const Auth: React.FC = () => {
         });
       }
     } else {
+      // Check for signup specific fields
+      if (
+        !formData.email ||
+        !formData.password ||
+        !formData.name ||
+        !formData.age ||
+        !formData.height ||
+        !formData.weight ||
+        !formData.gender
+      ) {
+        toast({
+          title: "Error",
+          description: "Please fill in all fields",
+          variant: "destructive",
+        });
+        return;
+      }
+
       const age = parseInt(formData.age);
       const height = parseFloat(formData.height);
       const weight = parseFloat(formData.weight);
@@ -94,10 +110,13 @@ const Auth: React.FC = () => {
         age,
         height,
         weight,
-        formData.gender
+        formData.gender,
+        formData.lifestyle
       );
       if (success) {
         // Optionally auto-login here
+        // The original code already does this, but it's a good practice to
+        // make sure it's working as expected.
         const loginSuccess = await login(formData.email, formData.password);
         if (loginSuccess) {
           toast({
@@ -273,6 +292,32 @@ const Auth: React.FC = () => {
                         required={!isLogin}
                       />
                     </div>
+                  </div>
+
+                  {/* Lifestyle Dropdown */}
+                  <div className="space-y-2">
+                    <Label
+                      htmlFor="lifestyle"
+                      className={language === "bn" ? "font-bengali" : ""}
+                    >
+                      Lifestyle
+                    </Label>
+                    <select
+                      id="lifestyle"
+                      name="lifestyle"
+                      value={formData.lifestyle}
+                      onChange={handleInputChange}
+                      required
+                      className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-primary dark:bg-gray-800 dark:border-gray-600"
+                    >
+                      <option value="Sedentary">Sedentary</option>
+                      <option value="Lightly active">Lightly active</option>
+                      <option value="Moderately active">
+                        Moderately active
+                      </option>
+                      <option value="Very active">Very active</option>
+                      <option value="Extra active">Extra active</option>
+                    </select>
                   </div>
                 </>
               )}

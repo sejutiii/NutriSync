@@ -21,7 +21,8 @@ interface AuthContextType {
     age: number,
     height: number,
     weight: number,
-    gender: "M" | "F"
+    gender: "M" | "F",
+    lifestyle: string
   ) => Promise<boolean>;
   logout: () => void;
   isLoading: boolean;
@@ -50,14 +51,15 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({
       const res = await fetch("http://127.0.0.1:8000/login", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ email, password }),
+        body: JSON.stringify({ email, password }), // Changed to send only email and password
       });
       const data = await res.json();
-      if (res.ok && data.token) {
-        localStorage.setItem("nutrisync-token", data.token);
+      if (res.ok) {
+        // Simplified check
         setUser(data.user); // Exclude password!
         localStorage.setItem("nutrisync-user", JSON.stringify(data.user));
         setIsLoading(false);
+        console.log("Login successful:", data.user);
         return true;
       }
       setIsLoading(false);
@@ -75,7 +77,8 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({
     age: number,
     height: number,
     weight: number,
-    gender: "M" | "F"
+    gender: "M" | "F",
+    lifestyle: string
   ): Promise<boolean> => {
     setIsLoading(true);
     try {
@@ -90,11 +93,13 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({
           height,
           weight,
           gender,
+          lifestyle,
         }),
       });
       const data = await res.json();
       if (res.ok && data._id) {
         setIsLoading(false);
+        console.log("Signup successful:", data);
         return true;
       }
       setIsLoading(false);
