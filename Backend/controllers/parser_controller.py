@@ -1,24 +1,28 @@
-from fastapi import Request, HTTPException
+from fastapi import HTTPException, APIRouter
+from pydantic import BaseModel
 import json
 from parser import NutritionParser
 
-PARSER_JSON_PATH = "parser.json"
+router = APIRouter()
 
-async def parse_input_route(request: Request):
+class ParseRequest(BaseModel):
+    input: str
+
+class ParseResponse(BaseModel):
+    output: dict
+
+@router.post("/parse-input", response_model=ParseResponse)
+async def parse_input_route(body: ParseRequest):
     try:
-        data = await request.json()
-        user_input = data.get("input")
+        user_input = body.input
         if not user_input:
             raise HTTPException(status_code=400, detail="No input provided")
         parser = NutritionParser('food_selected.csv')
         log_data = parser.parse_input(user_input)
-        # Save parser log
-        with open(PARSER_JSON_PATH, "w", encoding="utf-8") as f:
+        with open("parser.json", "w", encoding="utf-8") as f:
             json.dump(log_data, f, indent=2)
-
         # --- Create output.json from parser log ---
         import pandas as pd
-        import os
         FOOD_CSV_PATH = "food.csv"
         OUTPUT_JSON_PATH = "output.json"
         try:
@@ -43,9 +47,11 @@ async def parse_input_route(request: Request):
                 total_nutrition[col] = sum(item[col] for item in results)
             with open(OUTPUT_JSON_PATH, "w", encoding="utf-8") as f:
                 json.dump(total_nutrition, f, indent=2)
-        except Exception as e:
-            # Optionally log error or raise
+        except Exception:
             pass
-        return {"message": "Parsing complete", "parser_file": PARSER_JSON_PATH, "log": log_data}
+        # Return output.json content as response
+        with open(OUTPUT_JSON_PATH, "r", encoding="utf-8") as f:
+            output_data = json.load(f)
+        return ParseResponse(output=output_data)
     except Exception as e:
         raise HTTPException(status_code=500, detail=str(e))
