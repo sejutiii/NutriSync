@@ -22,17 +22,18 @@ async def analyze_log(email: str):
         # Load output.json (already created by parser_controller)
         with open(OUTPUT_JSON_PATH, "r", encoding="utf-8") as f:
             total_nutrition = json.load(f)
+        print("DEBUG: total_nutrition", total_nutrition)
 
         # --- Begin final.py logic integration ---
         # Map age to group
         if 3 <= age <= 15:
-            AGE_GROUP = "child"
+            AGE_GROUP = "C"
         elif 16 <= age <= 50:
-            AGE_GROUP = "adult"
+            AGE_GROUP = "A"
         elif 51 <= age <= 90:
-            AGE_GROUP = "old"
+            AGE_GROUP = "O"
         else:
-            AGE_GROUP = str(age)  # fallback
+            AGE_GROUP =  "O" # fallback
         GENDER = gender
         # Load baseline data from CSV
         baseline_data = {}
@@ -45,6 +46,7 @@ async def analyze_log(email: str):
                         'Baseline': float(row['Baseline']) if row['Baseline'] else None,
                         'UL': float(row['UL']) if row['UL'] else None
                     }
+        print("DEBUG: baseline_data", baseline_data)
 
         # Mapping between JSON keys and baseline nutrient names
         nutrient_mapping = {
@@ -97,7 +99,9 @@ async def analyze_log(email: str):
         with open('nutrition_analysis.json', 'w', encoding='utf-8') as f:
             json.dump(results_analysis, f, indent=2)
 
-        # Return nutrition_analysis.json for frontend
-        return {"message": "Analysis complete", "nutrition_analysis": results_analysis}
+        # Read nutrition_analysis.json and send as response
+        with open('nutrition_analysis.json', 'r', encoding='utf-8') as f:
+            nutrition_analysis_json = json.load(f)
+        return {"message": "Analysis complete", "nutrition_analysis": nutrition_analysis_json}
     except Exception as e:
         raise HTTPException(status_code=500, detail=str(e))
