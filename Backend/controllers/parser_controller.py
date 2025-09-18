@@ -12,8 +12,40 @@ async def parse_input_route(request: Request):
             raise HTTPException(status_code=400, detail="No input provided")
         parser = NutritionParser('food_selected.csv')
         log_data = parser.parse_input(user_input)
+        # Save parser log
         with open(PARSER_JSON_PATH, "w", encoding="utf-8") as f:
             json.dump(log_data, f, indent=2)
+
+        # --- Create output.json from parser log ---
+        import pandas as pd
+        import os
+        FOOD_CSV_PATH = "food.csv"
+        OUTPUT_JSON_PATH = "output.json"
+        try:
+            df = pd.read_csv(FOOD_CSV_PATH)
+            results = []
+            for key, entry in log_data.items():
+                row = df[df[df.columns[2]] == int(key)]
+                if row.empty:
+                    continue
+                row = row.iloc[0]
+                amount_gm = entry["amount_gm"]
+                nutrition = {}
+                for col in df.columns[3:]:
+                    try:
+                        value = float(row[col]) * (amount_gm / 100)
+                    except (ValueError, TypeError):
+                        value = 0
+                    nutrition[col] = value
+                results.append(nutrition)
+            total_nutrition = {}
+            for col in df.columns[3:]:
+                total_nutrition[col] = sum(item[col] for item in results)
+            with open(OUTPUT_JSON_PATH, "w", encoding="utf-8") as f:
+                json.dump(total_nutrition, f, indent=2)
+        except Exception as e:
+            # Optionally log error or raise
+            pass
         return {"message": "Parsing complete", "parser_file": PARSER_JSON_PATH, "log": log_data}
     except Exception as e:
         raise HTTPException(status_code=500, detail=str(e))

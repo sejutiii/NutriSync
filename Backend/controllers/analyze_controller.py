@@ -19,37 +19,9 @@ async def analyze_log(email: str):
         age = user.get('age')
         gender = user.get('gender')
 
-        # Load food.csv into DataFrame
-        df = pd.read_csv(FOOD_CSV_PATH)
-        # Load logs-example.json
-        with open(LOG_JSON_PATH, "r", encoding="utf-8") as f:
-            logs = json.load(f)
-
-        # Find matching rows in food.csv
-        results = []
-        for key, entry in logs.items():
-            row = df[df[df.columns[2]] == int(key)]
-            if row.empty:
-                continue
-            row = row.iloc[0]
-            amount_gm = entry["amount_gm"]
-            nutrition = {}
-            for col in df.columns[3:]:
-                try:
-                    value = float(row[col]) * (amount_gm / 100)
-                except (ValueError, TypeError):
-                    value = 0
-                nutrition[col] = value
-            results.append(nutrition)
-
-        # Sum totals for each column
-        total_nutrition = {}
-        for col in df.columns[3:]:
-            total_nutrition[col] = sum(item[col] for item in results)
-
-        # Write output.json
-        with open(OUTPUT_JSON_PATH, "w", encoding="utf-8") as f:
-            json.dump(total_nutrition, f, indent=2)
+        # Load output.json (already created by parser_controller)
+        with open(OUTPUT_JSON_PATH, "r", encoding="utf-8") as f:
+            total_nutrition = json.load(f)
 
         # --- Begin final.py logic integration ---
         # Map age to group
