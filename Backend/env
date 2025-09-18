@@ -1,2 +1,0 @@
-SECRET_KEY=your_secret_key
-MONGODB_URI=mongodb+srv://bsse1406:brainrot@cluster0.d0bjhzl.mongodb.net/?retryWrites=true&w=majority&appName=Cluster0

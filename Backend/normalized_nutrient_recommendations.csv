@@ -1,0 +1,92 @@
+Id,Food_Item,Nutrient
+12061,ALMONDS,"Magnesium, Manganese, Protein, Vitamin E"
+9041,BANANAS,"Magnesium, Potassium, Vitamin B6, Vitamin C"
+13950,BEEF,"Choline, Iron, Vitamin B12, Zinc"
+13434,BEEF,"Iron, Protein, Vitamin B12, Zinc"
+8495,BEEF,"Iron, Vitamin B12, Vitamin B2, Zinc"
+13327,BEEF  LIVER,Vitamin B12
+13326,BEEF LIVER,"Choline, Copper, Vitamin A, Vitamin B2, Vitamin B5"
+13324,BEEF LIVER,"Copper, Selenium, Vitamin A, Vitamin B2"
+12078,BRAZILNUTS,Selenium
+11097,BROCCOLI,"Potassium, Vitamin C, Vitamin K"
+1145,BUTTER,Fats
+43143,CABBAGE,Vitamin K
+11683,CARROT,"Potassium, Vitamin A, Vitamin K"
+12585,CASHEW NUT,Copper
+12087,CASHEW NUT,Magnesium
+11968,CAULIFLOWER,Vitamin C
+1146,CHEESE,Phosphorus
+1029,CHEESE MOZZARELLA,"Calcium, Phosphorus, Protein, Vitamin B12, Zinc"
+12006,CHIA SEEDS,"Calcium, Manganese, Phosphorus, Protein"
+12006,CHIA SEEDS,"Fiber, Manganese, Phosphorus, Protein"
+5130,CHICKEN,"Phosphorus, Protein, Selenium, Vitamin B6"
+5017,CHICKEN,"Phosphorus, Selenium, Vitamin B6"
+16056,CHICKPEAS,"Fiber, Iron, Manganese, Phosphorus"
+14214,COFFEE,"Potassium, Vitamin B3"
+15227,CRAB,Vitamin B12
+15229,CUTTLEFISH,Selenium
+17181,CUTTLEFISH,Protein
+8384,CUTTLEFISH,Iron
+9421,DATES MEDJOOL,Sugar
+13897,EGG,"Protein, Selenium, Vitamin B12, Vitamin B2"
+1128,EGG,"Cholesterol, Choline, Selenium, Vitamin B12, Vitamin B2"
+1133,EGG,"Selenium, Vitamin B12, Vitamin B2"
+1134,EGG,"Selenium, Vitamin B12, Vitamin B2"
+1136,EGG,"Selenium, Vitamin B12, Vitamin B2"
+1137,EGG,"Selenium, Vitamin B12, Vitamin B2, Vitamin B5"
+43144,EGGPLANT,Vitamin K
+17204,FISH,Zinc
+4589,FISH OIL,Vitamin A
+4589,FISH OIL,Cholesterol
+12220,FLAXSEED,"Fiber, Magnesium, Phosphorus"
+2020,GARLIC,Vitamin B6
+2021,GINGER,Manganese
+9139,GUAVAS,Vitamin C
+14289,LEMON,Vitamin C
+16144,LENTILS,"Copper, Iron, Manganese, Protein"
+16069,LENTILS,"Fiber, Iron, Manganese, Protein"
+15047,MACKEREL,Vitamin B12
+1155,MILK,"Phosphorus, Potassium, Vitamin B12, Vitamin B2"
+1154,MILK,"Calcium, Choline, Phosphorus, Potassium, Vitamin B12"
+1091,MILK,"Phosphorus, Potassium, Protein, Vitamin B12, Vitamin B5"
+1093,MILK,"Phosphorus, Potassium, Vitamin B12"
+12638,MIXED NUTS,Copper
+12638,MIXED NUTS,Selenium
+19303,MOLASSES,Sugar
+11268,MUSHROOMS SHIITAKE,"Copper, Selenium, Vitamin B5, Zinc"
+11268,MUSHROOMS SHIITAKE,"Choline, Copper, Potassium, Selenium, Vitamin B5, Zinc"
+11270,MUSTARD GREENS,Vitamin K
+2024,MUSTARD SEED YELLOW,Selenium
+20033,OATS,"Fiber, Magnesium, Manganese, Phosphorus, Zinc"
+11959,OKRA,"Fiber, Vitamin K, Vitamin C, Magnesium"
+14409,ORANGE,Vitamin C
+16156,PEANUT BUTTER,Vitamin B6
+13333,PEANUT BUTTER,"Iron, Copper"
+16155,PEANUT BUTTER,"Vitamin A, Vitamin E, Zinc"
+16156,PEANUT BUTTER CHUNKY VITAMIN&MINERAL FORT,Vitamin E
+2033,POPPY SEED,Magnesium
+11507,POTATOES,"Potassium, Vitamin C, Vitamin B6, Fiber, Manganese"
+8214,PUMPKIN SEEDS,"Iron, Magnesium, Zinc"
+12014,PUMPKIN SEEDS,"Iron, Magnesium, Phosphorus, Zinc"
+8360,PUMPKIN SEEDS,"Iron, Magnesium, Zinc"
+20060,RICE,"Magnesium, Manganese, Phosphorus, Vitamin B1, Vitamin B3, Vitamin B5, Vitamin B6"
+20060,RICE,Potassium
+2047,SALT,Sodium
+12201,SESAME SEEDS,"Copper, Manganese, Phosphorus, Selenium, Zinc"
+12023,SESAME SEEDS,"Calcium, Copper, Magnesium, Manganese, Zinc"
+12023,SESAME SEEDS,"Copper, Manganese, Zinc"
+8092,SESSAME SEEDS,Iron
+2066,SPEARMINT DRIED,Magnesium
+11856,SPINACH,"Iron, Vitamin A, Vitamin K"
+19334,SUGARS GRANULATED,"Carbohydrates, Sugar"
+12036,SUNFLOWER SEEDS,"Copper, Phosphorus, Vitamin E"
+11875,SWEET POTATO,"Manganese, Potassium, Vitamin A, Vitamin C"
+14366,TEA,Manganese
+11956,TOMATOES,Vitamin C
+4583,VEGETABLE OIL,Fats
+4531,VEGETABLE OIL,Vitamin K
+4529,VEGETABLE OIL,Vitamin E
+12154,WALNUTS,"Copper, Manganese"
+20078,WHEAT FLOUR,Selenium
+20078,WHEAT FLOUR,"Manganese, Vitamin B5, Zinc"
+11252,YOGURT,"Calcium, Protein, Vitamin B12, Phosphorus"

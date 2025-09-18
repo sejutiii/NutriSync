@@ -1,3 +1,4 @@
+from fastapi import Request
 from fastapi import HTTPException, Response
 from fastapi.responses import JSONResponse
 from models.user import UserLogin
@@ -21,6 +22,12 @@ def create_access_token(data: dict, expires_delta: timedelta = None):
     to_encode.update({"exp": expire})
     encoded_jwt = jwt.encode(to_encode, SECRET_KEY, algorithm=ALGORITHM)
     return encoded_jwt
+
+# Logout API
+async def logout_user(request: Request):
+    response = JSONResponse(content={"message": "Logged out successfully"})
+    response.delete_cookie(key="access_token")
+    return response
 
 async def login_user(login: UserLogin):
     user = await db["user"].find_one({"email": login.email})
